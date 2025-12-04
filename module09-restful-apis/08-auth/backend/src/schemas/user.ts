@@ -1,5 +1,5 @@
-import { z } from "zod/v4";
-import { isValidObjectId, Types } from "mongoose";
+import { z } from 'zod/v4';
+import { isValidObjectId, Types } from 'mongoose';
 
 // --- Base Schemas (Internal/External) ---
 const dbEntrySchema = z.strictObject({
@@ -10,9 +10,7 @@ const dbEntrySchema = z.strictObject({
 });
 
 export const userParamsSchema = z.object({
-  id: z
-    .string()
-    .refine((val) => isValidObjectId(val), "Invalid user ID format!"),
+  id: z.string().refine((val) => isValidObjectId(val), 'Invalid user ID format!'),
 });
 
 export const userInputSchema = z.strictObject({
@@ -20,11 +18,9 @@ export const userInputSchema = z.strictObject({
     .string()
     .min(1, "First name can't be empty!")
     .max(100, "First name can't be longer than 100 characters!"),
-  lastName: z
-    .string()
-    .min(1, "Last name can't be empty!")
-    .max(100, "Last name can't be longer than 100 characters!"),
-  email: z.string().email("Invalid email format!"),
+  lastName: z.string().min(1, "Last name can't be empty!").max(100, "Last name can't be longer than 100 characters!"),
+  email: z.string().email('Invalid email format!'),
+  password: z.string().min(8).max(512),
 });
 
 // --- Output/DTO Schemas ---

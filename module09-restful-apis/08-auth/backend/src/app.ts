@@ -1,17 +1,27 @@
-import express from "express";
-import "#db";
-import { userRouter } from "#routers";
-import { errorHandler } from "#middlewares";
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import '#db';
+import { authRouter, userRouter } from '#routers';
+import { authenticate, authorize, errorHandler } from '#middlewares';
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/users", userRouter);
+app.use('/auth', authRouter);
+app.use('/users', userRouter);
 
-app.use("*splat", (req, res) => {
-  throw new Error("Not found!", { cause: 404 });
+app.post('/protected', authenticate, authorize(['admin', 'reader']), (req, res) => {
+  res.json({ message: 'You requested a protected route' });
+});
+app.post('/protected/:id', authenticate, authorize(['admin', 'self']), (req, res) => {
+  res.json({ message: 'You requested a protected route' });
+});
+
+app.use('*splat', (req, res) => {
+  throw new Error('Not found!', { cause: 404 });
 });
 
 app.use(errorHandler);
