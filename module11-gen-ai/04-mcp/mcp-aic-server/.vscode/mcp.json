@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "mcp-aic-server": {
+      "command": "node",
+      "args": [
+        "C:/Users/robin/Desktop/Repos/Students/WD68/Backend/module11-gen-ai/04-mcp/mcp-aic-server/dist/app.js"
+      ]
+    }
+  }
+}
